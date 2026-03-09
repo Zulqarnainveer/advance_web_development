@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Contact — Express Server</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📧</text></svg>"/>
+  <link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav>
+    <a class="nav-logo" href="/">Express<span>Server</span></a>
+    <div class="nav-links">
+      <a href="/"        >Home</a>
+      <a href="/about"   >About</a>
+      <a href="/contact" class="active">Contact</a>
+      <a href="/greet"   >Greet</a>
+      <a href="/form"    >Form</a>
+    </div>
+  </nav>
+
+  <!-- ── Page Content ── -->
+  <div class="wrapper">
+    <div class="card" style="max-width:520px; width:100%; text-align:center;">
+
+      <div class="badge">📧 Contact</div>
+      <h1>Get in touch<br/>with us.</h1>
+      <p style="margin-bottom:32px;">
+        Contact us at
+        <strong style="color:var(--accent);">Zulqarnain@gmail.com</strong> —
+        we're happy to hear from you and will respond within 24 hours.
+      </p>
+
+      <!-- Email Highlight Box -->
+      <div class="email-box">
+        <div style="font-size:1.8rem;">📩</div>
+        <div>
+          <div class="email-box-label">Email Address</div>
+          <div class="email-box-value">Zulqarnain@gmail.com</div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+        <a href="/form" class="btn btn-primary">📬 Send a Message</a>
+        <a href="/"     class="btn btn-ghost">← Home</a>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

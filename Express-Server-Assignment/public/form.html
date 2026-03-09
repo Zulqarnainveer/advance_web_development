@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Form — Express Server</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📬</text></svg>"/>
+  <link rel="stylesheet" href="/style.css"/>
+  <style>
+    /* ── Two-panel layout ── */
+    .page {
+      position: relative; z-index:1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+      padding-top: 62px;
+    }
+
+    /* ── Left branding panel ── */
+    .left-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 60px;
+      border-right: 1px solid var(--border);
+    }
+
+    .left-panel h1 { font-size: clamp(2rem,3.5vw,3rem); margin-bottom:16px; }
+    .left-panel p  { margin-bottom:44px; }
+
+    .features { display:flex; flex-direction:column; gap:14px; }
+
+    .feature-item {
+      display: flex; align-items:center; gap:14px;
+      padding: 14px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      transition: all 0.25s;
+    }
+    .feature-item:hover {
+      border-color: rgba(79,142,247,0.3);
+      color: var(--text);
+      transform: translateX(4px);
+    }
+    .feature-icon {
+      width:36px; height:36px;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(79,142,247,0.1);
+      border: 1px solid rgba(79,142,247,0.2);
+      border-radius:9px;
+      font-size:1rem;
+      flex-shrink:0;
+    }
+    .feature-text-title { font-weight:600; color:var(--text); margin-bottom:2px; }
+    .feature-text-desc  { font-size:0.8rem; }
+
+    /* ── Right form panel ── */
+    .right-panel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 60px;
+    }
+
+    .form-card {
+      width:100%; max-width:420px;
+      animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    .form-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem; font-weight:700;
+      color: var(--text); margin-bottom:6px;
+    }
+    .form-subtitle { color:var(--muted); font-size:0.88rem; margin-bottom:32px; }
+
+    @media (max-width:900px) {
+      .page { grid-template-columns:1fr; }
+      .left-panel { display:none; }
+      .right-panel { padding:40px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav>
+    <a class="nav-logo" href="/">Express<span>Server</span></a>
+    <div class="nav-links">
+      <a href="/"        >Home</a>
+      <a href="/about"   >About</a>
+      <a href="/contact" >Contact</a>
+      <a href="/greet"   >Greet</a>
+      <a href="/form"    class="active">Form</a>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- ── Left Branding Panel ── -->
+    <div class="left-panel">
+      <div class="badge">📬 Contact Form</div>
+      <h1>Let's hear<br/>from you.</h1>
+      <p>
+        Submit your details and we'll get back to you shortly.
+        All data is securely processed server-side via Express.
+      </p>
+
+      <div class="features">
+        <div class="feature-item">
+          <div class="feature-icon">⚡</div>
+          <div>
+            <div class="feature-text-title">Instant Processing</div>
+            <div class="feature-text-desc">Parsed via express.urlencoded() middleware</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🔒</div>
+          <div>
+            <div class="feature-text-title">Server-side Validation</div>
+            <div class="feature-text-desc">Both name and email are required</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">📄</div>
+          <div>
+            <div class="feature-text-title">Request Logging</div>
+            <div class="feature-text-desc">All requests saved to requests.log</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">📁</div>
+          <div>
+            <div class="feature-text-title">Static File Serving</div>
+            <div class="feature-text-desc">This page served by express.static middleware</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Right Form Panel ── -->
+    <div class="right-panel">
+      <div class="form-card">
+
+        <div class="form-title">Send a Message</div>
+        <div class="form-subtitle">Fill in the fields below to get started.</div>
+
+        <!-- POSTs to /submit — handled dynamically in server.js -->
+        <form action="/submit" method="POST" id="contactForm">
+
+          <!-- Name -->
+          <div class="form-group">
+            <label for="name">Full Name <span class="req">*</span></label>
+            <div class="input-wrapper">
+              <span class="input-icon">👤</span>
+              <input
+                type="text" id="name" name="name"
+                placeholder="e.g. Zulqarnain"
+                required minlength="2" autocomplete="name"
+              />
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">Email Address <span class="req">*</span></label>
+            <div class="input-wrapper">
+              <span class="input-icon">📧</span>
+              <input
+                type="email" id="email" name="email"
+                placeholder="e.g. Zulqarnain@gmail.com"
+                required autocomplete="email"
+              />
+            </div>
+          </div>
+
+          <div class="divider-line">secure submission</div>
+
+          <button type="submit" class="btn-submit" id="submitBtn">
+            🚀 &nbsp; Submit Form
+          </button>
+
+        </form>
+
+        <div class="form-footer">
+          <span>🔐 Handled by POST /submit</span>
+          <a href="/">← Back to Home</a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Button loading state on submit
+    document.getElementById('contactForm').addEventListener('submit', () => {
+      const btn = document.getElementById('submitBtn');
+      btn.textContent = '⏳  Submitting...';
+      btn.style.opacity = '0.8';
+      btn.disabled = true;
+    });
+  </script>
+
+</body>
+</html>

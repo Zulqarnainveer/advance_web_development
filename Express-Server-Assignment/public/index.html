@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Home — Express Server</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"/>
+  <link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav>
+    <a class="nav-logo" href="/">Express<span>Server</span></a>
+    <div class="nav-links">
+      <a href="/"        class="active">Home</a>
+      <a href="/about"  >About</a>
+      <a href="/contact">Contact</a>
+      <a href="/greet"  >Greet</a>
+      <a href="/form"   >Form</a>
+    </div>
+  </nav>
+
+  <!-- ── Page Content ── -->
+  <div class="wrapper" style="text-align:center;">
+
+    <div style="max-width:700px; animation: fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both;">
+      <div class="badge">⚡ Live on Port 4000</div>
+
+      <h1>Welcome to the<br/>Express Server!</h1>
+
+      <p style="max-width:480px; margin:0 auto 40px; font-size:1rem;">
+        A Node.js + Express demo showcasing routing, static file serving via middleware,
+        request logging, and form handling — built for CSC337.
+      </p>
+
+      <!-- Route Cards -->
+      <div class="route-grid">
+        <a class="route-card" href="/about">
+          <div class="route-card-icon">ℹ️</div>
+          <div class="route-card-title">About</div>
+          <div class="route-card-desc">About this server</div>
+        </a>
+        <a class="route-card" href="/contact">
+          <div class="route-card-icon">📧</div>
+          <div class="route-card-title">Contact</div>
+          <div class="route-card-desc">Get in touch</div>
+        </a>
+        <a class="route-card" href="/greet?name=Developer">
+          <div class="route-card-icon">👋</div>
+          <div class="route-card-title">Greet</div>
+          <div class="route-card-desc">Dynamic greeting</div>
+        </a>
+        <a class="route-card" href="/form">
+          <div class="route-card-icon">📬</div>
+          <div class="route-card-title">Form</div>
+          <div class="route-card-desc">Submit your details</div>
+        </a>
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+        <a href="/form"  class="btn btn-primary">📬 Open Form</a>
+        <a href="/greet" class="btn btn-ghost">👋 Say Hello</a>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

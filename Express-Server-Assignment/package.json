@@ -1,0 +1,14 @@
+{
+  "name": "express-assignment-2",
+  "version": "3.0.0",
+  "description": "CSC337 Assignment 2 — Express Server with Static Middleware",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "BSSE Student — COMSATS University Islamabad, Vehari Campus",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

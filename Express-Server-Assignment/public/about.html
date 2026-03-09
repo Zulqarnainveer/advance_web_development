@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>About — Express Server</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>ℹ️</text></svg>"/>
+  <link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav>
+    <a class="nav-logo" href="/">Express<span>Server</span></a>
+    <div class="nav-links">
+      <a href="/"        >Home</a>
+      <a href="/about"   class="active">About</a>
+      <a href="/contact" >Contact</a>
+      <a href="/greet"   >Greet</a>
+      <a href="/form"    >Form</a>
+    </div>
+  </nav>
+
+  <!-- ── Page Content ── -->
+  <div class="wrapper">
+    <div class="card" style="max-width:560px; width:100%; text-align:center;">
+
+      <div class="badge">ℹ️ About</div>
+      <h1>This is the<br/>About page.</h1>
+      <p style="margin-bottom:32px;">
+        This Express server was built as part of
+        <strong style="color:var(--text);">CSC337 — Advanced Web Technologies</strong>
+        at COMSATS University Islamabad, Vehari Campus. It demonstrates routing,
+        static file middleware, and form handling.
+      </p>
+
+      <!-- Stats Grid -->
+      <div class="stat-grid">
+        <div class="stat-item">
+          <div class="stat-icon">🛠️</div>
+          <div class="stat-label">Framework</div>
+          <div class="stat-value">Express.js v4</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">⚙️</div>
+          <div class="stat-label">Runtime</div>
+          <div class="stat-value">Node.js</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">🌐</div>
+          <div class="stat-label">Port</div>
+          <div class="stat-value">4000</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">📁</div>
+          <div class="stat-label">Course</div>
+          <div class="stat-value">CSC337</div>
+        </div>
+      </div>
+
+      <a href="/" class="btn btn-ghost">← Back to Home</a>
+
+    </div>
+  </div>
+
+</body>
+</html>
