@@ -1,0 +1,64 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<main class="auth-page">
+  <div class="auth-card">
+    <div class="auth-header">
+      <i class="fa-solid fa-user-plus auth-icon"></i>
+      <h1>Create Account</h1>
+      <p>Join BlogFlow and start sharing your stories</p>
+    </div>
+
+    <%- include('../partials/flash') %>
+
+    <form action="/auth/register" method="POST" class="auth-form" novalidate>
+      <div class="form-group">
+        <label for="username"><i class="fa-solid fa-at"></i> Username</label>
+        <input type="text" id="username" name="username"
+               value="<%= formData.username || '' %>"
+               placeholder="e.g. john_doe" autocomplete="username" required/>
+        <span class="input-hint">Letters, numbers & underscores only (3–20 chars)</span>
+      </div>
+
+      <div class="form-group">
+        <label for="email"><i class="fa-solid fa-envelope"></i> Email Address</label>
+        <input type="email" id="email" name="email"
+               value="<%= formData.email || '' %>"
+               placeholder="you@example.com" autocomplete="email" required/>
+      </div>
+
+      <div class="form-group">
+        <label for="password"><i class="fa-solid fa-lock"></i> Password</label>
+        <div class="input-password">
+          <input type="password" id="password" name="password"
+                 placeholder="Min 6 chars, include a number" autocomplete="new-password" required/>
+          <button type="button" class="toggle-pw" onclick="togglePassword('password')">
+            <i class="fa-solid fa-eye" id="icon-password"></i>
+          </button>
+        </div>
+        <div class="password-strength" id="pwStrength"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword"><i class="fa-solid fa-lock-open"></i> Confirm Password</label>
+        <div class="input-password">
+          <input type="password" id="confirmPassword" name="confirmPassword"
+                 placeholder="Repeat your password" autocomplete="new-password" required/>
+          <button type="button" class="toggle-pw" onclick="togglePassword('confirmPassword')">
+            <i class="fa-solid fa-eye" id="icon-confirmPassword"></i>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full">
+        <i class="fa-solid fa-rocket"></i> Create My Account
+      </button>
+    </form>
+
+    <p class="auth-footer-text">
+      Already have an account? <a href="/auth/login">Sign in here</a>
+    </p>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,132 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"/>
+
+<main class="dashboard-page">
+  <div class="container container-narrow">
+    <%- include('../partials/flash') %>
+
+    <div class="form-page-header">
+      <a href="/dashboard" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+      <h1>Create New Post</h1>
+    </div>
+
+    <form action="/dashboard/posts/create" method="POST" enctype="multipart/form-data" class="post-form" id="postForm">
+
+      <div class="form-group">
+        <label>Post Title <span class="req">*</span></label>
+        <input type="text" name="title" placeholder="Enter a compelling title..."
+               value="<%= formData.title || '' %>" required maxlength="150"/>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category <span class="req">*</span></label>
+          <select name="category" required>
+            <option value="">— Select Category —</option>
+            <% categories.forEach(cat => { %>
+              <option value="<%= cat %>" <%= formData.category === cat ? 'selected' : '' %>>
+                <%= cat %>
+              </option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select name="status">
+            <option value="published">Published</option>
+            <option value="draft">Save as Draft</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Tags <span class="hint">(comma-separated)</span></label>
+        <input type="text" name="tags" placeholder="e.g. nodejs, webdev, tutorial"
+               value="<%= formData.tags || '' %>"/>
+      </div>
+
+      <div class="form-group">
+        <label>Cover Image <span class="req">*</span></label>
+        <div class="file-drop-zone" id="dropZone">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <p>Drag & drop an image here or <span>browse</span></p>
+          <small>JPG, PNG, GIF, WebP — Max 5MB</small>
+          <input type="file" name="image" id="imageInput" accept="image/*"/>
+        </div>
+        <div class="img-preview-wrap" id="imgPreview" style="display:none">
+          <img id="imgPreviewImg" src="" alt="Preview"/>
+          <button type="button" onclick="clearImage()" class="img-clear-btn">&times;</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Content <span class="req">*</span></label>
+        <div id="quillEditor" style="min-height:350px"></div>
+        <textarea name="content" id="contentTextarea" style="display:none"><%= formData.content || '' %></textarea>
+        <span class="input-hint">Minimum 50 characters</span>
+      </div>
+
+      <div class="form-actions">
+        <a href="/dashboard" class="btn btn-outline">Cancel</a>
+        <button type="submit" class="btn btn-primary">
+          <i class="fa-solid fa-paper-plane"></i> Publish Post
+        </button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+  const quill = new Quill('#quillEditor', {
+    theme: 'snow',
+    placeholder: 'Write your post content here...',
+    modules: {
+      toolbar: [
+        [{ header: [1,2,3,false] }],
+        ['bold','italic','underline','strike'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        ['blockquote', 'code-block'],
+        ['link', 'image'],
+        [{ align: [] }],
+        ['clean'],
+      ],
+    },
+  });
+
+  // Pre-fill from flash data on validation failure
+  const existingContent = document.getElementById('contentTextarea').value;
+  if (existingContent) quill.root.innerHTML = existingContent;
+
+  // Sync Quill content to hidden textarea before form submit
+  document.getElementById('postForm').addEventListener('submit', function(e) {
+    const html = quill.root.innerHTML;
+    // Quill puts <p><br></p> for empty content
+    if (html === '<p><br></p>' || html.trim() === '') {
+      document.getElementById('contentTextarea').value = '';
+    } else {
+      document.getElementById('contentTextarea').value = html;
+    }
+  });
+
+  // Image preview
+  document.getElementById('imageInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      document.getElementById('imgPreviewImg').src = ev.target.result;
+      document.getElementById('imgPreview').style.display = 'block';
+      document.getElementById('dropZone').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function clearImage() {
+    document.getElementById('imageInput').value = '';
+    document.getElementById('imgPreview').style.display = 'none';
+    document.getElementById('dropZone').style.display = 'flex';
+  }
+</script>
+<%- include('../partials/footer') %>

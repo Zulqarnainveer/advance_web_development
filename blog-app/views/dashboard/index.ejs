@@ -1,0 +1,125 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<main class="dashboard-page">
+  <div class="container">
+    <%- include('../partials/flash') %>
+
+    <!-- Dashboard Header -->
+    <div class="dash-header">
+      <div>
+        <h1>Welcome, <%= user.username %>!</h1>
+        <p>Manage your posts and track your progress.</p>
+      </div>
+      <a href="/dashboard/posts/create" class="btn btn-primary">
+        <i class="fa-solid fa-plus"></i> New Post
+      </a>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <i class="fa-solid fa-newspaper stat-icon blue"></i>
+        <div>
+          <span class="stat-num"><%= stats.totalPosts %></span>
+          <span class="stat-label">Total Posts</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="fa-solid fa-circle-check stat-icon green"></i>
+        <div>
+          <span class="stat-num"><%= stats.published %></span>
+          <span class="stat-label">Published</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="fa-solid fa-file-pen stat-icon amber"></i>
+        <div>
+          <span class="stat-num"><%= stats.drafts %></span>
+          <span class="stat-label">Drafts</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="fa-regular fa-eye stat-icon purple"></i>
+        <div>
+          <span class="stat-num"><%= stats.totalViews %></span>
+          <span class="stat-label">Total Views</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Posts Table -->
+    <div class="dash-section">
+      <h2>Your Posts
+        <span class="badge"><%= posts.length %></span>
+      </h2>
+
+      <% if (posts.length === 0) { %>
+        <div class="empty-state-sm">
+          <i class="fa-solid fa-pencil"></i>
+          <p>You haven't written anything yet. <a href="/dashboard/posts/create">Create your first post</a>.</p>
+        </div>
+      <% } else { %>
+        <div class="table-wrap">
+          <table class="posts-table">
+            <thead>
+              <tr>
+                <th>Cover</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Author</th>
+                <th>Status</th>
+                <th>Views</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% posts.forEach(post => { %>
+                <tr>
+                  <td>
+                    <img src="/uploads/<%= post.coverImage %>"
+                         alt="" class="table-thumb"
+                         onerror="this.src='/img/default-cover.jpg'" loading="lazy"/>
+                  </td>
+                  <td>
+                    <a href="/blog/<%= post.slug %>" class="post-title-link" target="_blank">
+                      <%= post.title.length > 50 ? post.title.substring(0,50)+'...' : post.title %>
+                    </a>
+                  </td>
+                  <td><span class="category-pill"><%= post.category %></span></td>
+                  <td>
+                    <!-- .populate() demo: shows full author object -->
+                    <span class="author-pill">
+                      <i class="fa-solid fa-user"></i> <%= post.author.username %>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="status-badge status-<%= post.status %>">
+                      <%= post.status %>
+                    </span>
+                  </td>
+                  <td><%= post.views %></td>
+                  <td><%= post.createdAt.toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'}) %></td>
+                  <td class="action-cell">
+                    <a href="/dashboard/posts/<%= post._id %>/edit" class="btn btn-sm btn-outline" title="Edit">
+                      <i class="fa-solid fa-pen"></i>
+                    </a>
+                    <form action="/dashboard/posts/<%= post._id %>?_method=DELETE" method="POST"
+                          onsubmit="return confirmDelete()">
+                      <button type="submit" class="btn btn-sm btn-danger" title="Delete">
+                        <i class="fa-solid fa-trash"></i>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

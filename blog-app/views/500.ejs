@@ -1,0 +1,14 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+<main class="error-page">
+  <div class="error-content">
+    <div class="error-code">500</div>
+    <h2>Server Error</h2>
+    <p>Something went wrong on our end. Please try again.</p>
+    <% if (typeof error !== 'undefined' && process && process.env.NODE_ENV === 'development') { %>
+      <code class="error-detail"><%= error %></code>
+    <% } %>
+    <a href="/blog" class="btn btn-primary">Go Back Home</a>
+  </div>
+</main>
+<%- include('partials/footer') %>

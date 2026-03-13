@@ -1,0 +1,147 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<main class="dashboard-page">
+  <div class="container container-narrow">
+    <%- include('../partials/flash') %>
+
+    <div class="form-page-header">
+      <a href="/dashboard" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+      <h1><i class="fa-solid fa-gear"></i> Account Settings</h1>
+    </div>
+
+    <!-- ── Profile Settings ──────────────────────── -->
+    <div class="settings-section">
+      <h2><i class="fa-solid fa-user-pen"></i> Profile Information</h2>
+      <form action="/dashboard/settings/profile" method="POST" enctype="multipart/form-data" class="post-form">
+
+        <!-- Avatar -->
+        <div class="form-group">
+          <label>Profile Picture</label>
+          <div class="settings-avatar-wrap">
+            <img src="/uploads/<%= userData.avatar %>"
+                 onerror="this.src='/img/default-avatar.png'"
+                 alt="Profile" class="settings-avatar" id="avatarPreview" loading="lazy"/>
+            <div class="settings-avatar-actions">
+              <label class="btn btn-outline btn-sm" for="avatarInput">
+                <i class="fa-solid fa-camera"></i> Change Photo
+              </label>
+              <input type="file" name="image" id="avatarInput" accept="image/*" style="display:none"/>
+              <small>JPG, PNG, GIF, WebP — Max 5MB</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Username -->
+        <div class="form-group">
+          <label for="settings-username"><i class="fa-solid fa-at"></i> Username</label>
+          <input type="text" id="settings-username" name="username"
+                 value="<%= formData.username || userData.username %>"
+                 required minlength="3" maxlength="20"/>
+          <span class="input-hint">Letters, numbers & underscores only (3–20 chars)</span>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="settings-email"><i class="fa-solid fa-envelope"></i> Email Address</label>
+          <input type="email" id="settings-email" name="email"
+                 value="<%= formData.email || userData.email %>"
+                 required/>
+        </div>
+
+        <!-- Bio -->
+        <div class="form-group">
+          <label for="settings-bio"><i class="fa-solid fa-pen-fancy"></i> Bio</label>
+          <textarea id="settings-bio" name="bio" rows="3" maxlength="300"
+                    placeholder="Tell us a little about yourself..."><%= formData.bio !== undefined ? formData.bio : (userData.bio || '') %></textarea>
+          <span class="input-hint">Max 300 characters</span>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk"></i> Save Profile
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- ── Change Password ───────────────────────── -->
+    <div class="settings-section">
+      <h2><i class="fa-solid fa-lock"></i> Change Password</h2>
+      <form action="/dashboard/settings/password" method="POST" class="post-form">
+
+        <div class="form-group">
+          <label for="currentPassword">Current Password</label>
+          <div class="input-password">
+            <input type="password" id="currentPassword" name="currentPassword"
+                   placeholder="Enter your current password" required/>
+            <button type="button" class="toggle-pw" onclick="togglePassword('currentPassword')">
+              <i class="fa-solid fa-eye" id="icon-currentPassword"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="newPassword">New Password</label>
+          <div class="input-password">
+            <input type="password" id="newPassword" name="newPassword"
+                   placeholder="Min 6 chars, include a number" required minlength="6"/>
+            <button type="button" class="toggle-pw" onclick="togglePassword('newPassword')">
+              <i class="fa-solid fa-eye" id="icon-newPassword"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmNewPassword">Confirm New Password</label>
+          <div class="input-password">
+            <input type="password" id="confirmNewPassword" name="confirmNewPassword"
+                   placeholder="Repeat new password" required/>
+            <button type="button" class="toggle-pw" onclick="togglePassword('confirmNewPassword')">
+              <i class="fa-solid fa-eye" id="icon-confirmNewPassword"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-key"></i> Change Password
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- ── Account Info ──────────────────────────── -->
+    <div class="settings-section settings-info">
+      <h2><i class="fa-solid fa-circle-info"></i> Account Info</h2>
+      <div class="info-row">
+        <span class="info-label">Role</span>
+        <span class="role-badge role-<%= userData.role %>"><%= userData.role %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Member Since</span>
+        <span><%= userData.createdAt.toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'}) %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Last Updated</span>
+        <span><%= userData.updatedAt.toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'}) %></span>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  // Avatar preview on file select
+  document.getElementById('avatarInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      document.getElementById('avatarPreview').src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+</script>
+
+<%- include('../partials/footer') %>

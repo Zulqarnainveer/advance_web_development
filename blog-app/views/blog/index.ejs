@@ -1,0 +1,148 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<main>
+  <!-- Hero — Conditional for guest vs logged-in -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <h1 class="hero-title">Stay curious.</h1>
+          <p class="hero-sub">Discover stories, thinking, and expertise from writers on any topic.</p>
+          <div class="hero-actions">
+            <% if (user) { %>
+              <a href="/dashboard/posts/create" class="btn btn-primary btn-lg">
+                <i class="fa-solid fa-feather-pointed"></i> Write a story
+              </a>
+              <a href="/dashboard" class="btn btn-outline btn-lg">
+                <i class="fa-solid fa-columns"></i> Dashboard
+              </a>
+            <% } else { %>
+              <a href="/auth/register" class="btn btn-primary btn-lg">Start reading</a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container" id="posts">
+    <%- include('../partials/flash') %>
+
+    <!-- Category Filter -->
+    <div class="category-bar">
+      <a href="/blog" class="category-tag <%= !currentCategory ? 'active' : '' %>">All</a>
+      <% categories.forEach(cat => { %>
+        <a href="/blog?category=<%= cat %>"
+           class="category-tag <%= currentCategory === cat ? 'active' : '' %>">
+          <%= cat %>
+        </a>
+      <% }) %>
+    </div>
+
+    <!-- Post Feed -->
+    <% if (posts.length === 0) { %>
+      <div class="empty-state">
+        <i class="fa-regular fa-newspaper"></i>
+        <h3>No stories yet</h3>
+        <p>Be the first to share your ideas with the world.</p>
+        <% if (user) { %>
+          <a href="/dashboard/posts/create" class="btn btn-primary">Start Writing</a>
+        <% } else { %>
+          <a href="/auth/register" class="btn btn-primary">Start Writing</a>
+        <% } %>
+      </div>
+    <% } else { %>
+
+      <!-- Featured Post (first/newest) -->
+      <% const featured = posts[0]; %>
+      <a href="/blog/<%= featured.slug %>" class="featured-card" id="featuredCard">
+        <div class="featured-card-img">
+          <img src="/uploads/<%= featured.coverImage %>"
+               alt="<%= featured.title %>"
+               onerror="this.src='/img/default-cover.jpg'" loading="lazy"/>
+          <div class="featured-card-overlay"></div>
+        </div>
+        <div class="featured-card-content">
+          <% if (featured.category) { %>
+            <span class="featured-badge"><%= featured.category %></span>
+          <% } %>
+          <h2 class="featured-card-title"><%= featured.title %></h2>
+          <p class="featured-card-excerpt"><%= featured.excerpt %></p>
+          <div class="featured-card-meta">
+            <img src="/uploads/<%= featured.author.avatar %>"
+                 alt="<%= featured.author.username %>"
+                 class="meta-avatar"
+                 onerror="this.src='/img/default-avatar.png'" loading="lazy"/>
+            <span class="meta-author"><%= featured.author.username %></span>
+            <span class="meta-dot">&middot;</span>
+            <span><%= featured.createdAt.toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'}) %></span>
+            <span class="meta-dot">&middot;</span>
+            <span><%= featured.readTime %> min read</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Remaining posts in card grid -->
+      <% const remaining = posts.slice(1); %>
+      <% if (remaining.length > 0) { %>
+        <div class="blog-card-grid">
+          <% remaining.forEach((post, idx) => { %>
+            <article class="blog-card" style="animation-delay: <%= idx * 0.08 %>s">
+              <a href="/blog/<%= post.slug %>" class="blog-card-img-link">
+                <img src="/uploads/<%= post.coverImage %>"
+                     alt="<%= post.title %>"
+                     onerror="this.src='/img/default-cover.jpg'" loading="lazy"/>
+                <div class="blog-card-img-overlay"></div>
+                <% if (post.category) { %>
+                  <span class="blog-card-badge"><%= post.category %></span>
+                <% } %>
+              </a>
+              <div class="blog-card-body">
+                <h2 class="blog-card-title">
+                  <a href="/blog/<%= post.slug %>"><%= post.title %></a>
+                </h2>
+                <p class="blog-card-excerpt"><%= post.excerpt %></p>
+                <div class="blog-card-footer">
+                  <div class="blog-card-author">
+                    <img src="/uploads/<%= post.author.avatar %>"
+                         alt="<%= post.author.username %>"
+                         class="meta-avatar"
+                         onerror="this.src='/img/default-avatar.png'" loading="lazy"/>
+                    <span><%= post.author.username %></span>
+                  </div>
+                  <div class="blog-card-info">
+                    <span><%= post.createdAt.toLocaleDateString('en-US', {month:'short',day:'numeric'}) %></span>
+                    <span class="meta-dot">&middot;</span>
+                    <span><%= post.readTime %> min</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          <% }) %>
+        </div>
+      <% } %>
+
+      <% if (pagination.totalPages > 1) { %>
+        <div class="pagination">
+          <% if (pagination.page > 1) { %>
+            <a href="/blog?page=<%= pagination.page - 1 %><%= currentCategory ? '&category='+currentCategory : '' %>" class="page-btn">
+              <i class="fa-solid fa-chevron-left"></i> Previous
+            </a>
+          <% } %>
+          <% for(let i=1; i<=pagination.totalPages; i++) { %>
+            <a href="/blog?page=<%= i %><%= currentCategory ? '&category='+currentCategory : '' %>"
+               class="page-btn <%= i === pagination.page ? 'active' : '' %>"><%= i %></a>
+          <% } %>
+          <% if (pagination.page < pagination.totalPages) { %>
+            <a href="/blog?page=<%= pagination.page + 1 %><%= currentCategory ? '&category='+currentCategory : '' %>" class="page-btn">
+              Next <i class="fa-solid fa-chevron-right"></i>
+            </a>
+          <% } %>
+        </div>
+      <% } %>
+    <% } %>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

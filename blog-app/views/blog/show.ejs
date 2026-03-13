@@ -1,0 +1,114 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<!-- Reading Progress Bar -->
+<div class="reading-progress" id="readingProgress"></div>
+
+<main class="post-detail-page">
+  <div class="container">
+    <%- include('../partials/flash') %>
+
+    <article class="post-detail">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb">
+        <a href="/blog">Blog</a> &rsaquo;
+        <a href="/blog?category=<%= post.category %>"><%= post.category %></a> &rsaquo;
+        <span><%= post.title.substring(0,40) %>...</span>
+      </nav>
+
+      <header class="post-detail-header">
+        <span class="post-category-badge"><%= post.category %></span>
+        <h1 class="post-detail-title"><%= post.title %></h1>
+
+        <div class="post-detail-meta">
+          <img src="/uploads/<%= post.author.avatar %>"
+               onerror="this.src='/img/default-avatar.png'"
+               alt="<%= post.author.username %>" class="meta-avatar-lg" loading="lazy"/>
+          <div>
+            <strong><%= post.author.username %></strong>
+            <div class="meta-info-row">
+              <span><i class="fa-regular fa-calendar"></i>
+                <%= post.createdAt.toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'}) %>
+              </span>
+              <span><i class="fa-regular fa-clock"></i> <%= post.readTime %> min read</span>
+              <span><i class="fa-regular fa-eye"></i> <%= post.views %> views</span>
+            </div>
+          </div>
+        </div>
+
+        <% if (post.tags && post.tags.length > 0) { %>
+          <div class="post-tags">
+            <% post.tags.forEach(tag => { %>
+              <span class="tag">#<%= tag %></span>
+            <% }) %>
+          </div>
+        <% } %>
+      </header>
+
+      <div class="post-cover-img">
+        <img src="/uploads/<%= post.coverImage %>"
+             alt="<%= post.title %>"
+             onerror="this.src='/img/default-cover.jpg'" loading="lazy"/>
+      </div>
+
+      <div class="post-body">
+        <%- post.content %>
+      </div>
+
+      <!-- Author Card -->
+      <div class="author-card">
+        <img src="/uploads/<%= post.author.avatar %>"
+             onerror="this.src='/img/default-avatar.png'"
+             alt="<%= post.author.username %>" class="author-card-avatar" loading="lazy"/>
+        <div>
+          <h4>Written by <strong><%= post.author.username %></strong></h4>
+          <p><%= post.author.bio || 'Passionate writer on BlogFlow.' %></p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Related Posts -->
+    <% if (related.length > 0) { %>
+      <section class="related-section">
+        <h2>Related Posts</h2>
+        <div class="post-grid post-grid-3">
+          <% related.forEach(rp => { %>
+            <article class="post-card">
+              <a href="/blog/<%= rp.slug %>" class="post-card-img-link">
+                <img src="/uploads/<%= rp.coverImage %>"
+                     alt="<%= rp.title %>"
+                     onerror="this.src='/img/default-cover.jpg'" loading="lazy"/>
+              </a>
+              <div class="post-card-body">
+                <h3><a href="/blog/<%= rp.slug %>"><%= rp.title %></a></h3>
+                <p><%= rp.excerpt ? rp.excerpt.substring(0,100)+'...' : '' %></p>
+              </div>
+            </article>
+          <% }) %>
+        </div>
+      </section>
+    <% } %>
+  </div>
+</main>
+
+<script>
+  // Reading progress bar
+  const progressBar = document.getElementById('readingProgress');
+  if (progressBar) {
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressBar.style.width = Math.min(progress, 100) + '%';
+    });
+  }
+
+  // Syntax highlighting for code blocks in post body
+  if (window.Prism) {
+    document.querySelectorAll('.post-body pre code').forEach(block => {
+      Prism.highlightElement(block);
+    });
+  }
+</script>
+
+<%- include('../partials/footer') %>

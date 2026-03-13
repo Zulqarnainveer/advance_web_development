@@ -1,0 +1,65 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<main>
+  <div class="container">
+    <div class="page-header">
+      <h1>Search Results</h1>
+      <% if (query) { %>
+        <p>Showing results for: <strong>"<%= query %>"</strong> &mdash; <%= posts.length %> post(s) found</p>
+      <% } %>
+    </div>
+
+    <form action="/blog/search" method="GET" class="search-bar search-bar-lg">
+      <input type="text" name="q" value="<%= query %>" placeholder="Search posts, topics, tags..." autofocus/>
+      <button type="submit" class="btn btn-primary">
+        <i class="fa-solid fa-magnifying-glass"></i> Search
+      </button>
+    </form>
+
+    <% if (posts.length === 0 && query) { %>
+      <div class="empty-state">
+        <i class="fa-solid fa-face-frown"></i>
+        <h3>No results found</h3>
+        <p>Try different keywords or browse all posts</p>
+        <a href="/blog" class="btn btn-primary">Browse All Posts</a>
+      </div>
+    <% } else { %>
+      <div class="blog-card-grid">
+        <% posts.forEach((post, idx) => { %>
+          <article class="blog-card" style="animation-delay: <%= idx * 0.08 %>s">
+            <a href="/blog/<%= post.slug %>" class="blog-card-img-link">
+              <img src="/uploads/<%= post.coverImage %>"
+                   alt="<%= post.title %>"
+                   onerror="this.src='/img/default-cover.jpg'" loading="lazy"/>
+              <div class="blog-card-img-overlay"></div>
+              <% if (post.category) { %>
+                <span class="blog-card-badge"><%= post.category %></span>
+              <% } %>
+            </a>
+            <div class="blog-card-body">
+              <h2 class="blog-card-title"><a href="/blog/<%= post.slug %>"><%= post.title %></a></h2>
+              <p class="blog-card-excerpt"><%= post.excerpt %></p>
+              <div class="blog-card-footer">
+                <div class="blog-card-author">
+                  <img src="/uploads/<%= post.author.avatar %>"
+                       alt="<%= post.author.username %>"
+                       class="meta-avatar"
+                       onerror="this.src='/img/default-avatar.png'" loading="lazy"/>
+                  <span><%= post.author.username %></span>
+                </div>
+                <div class="blog-card-info">
+                  <span><%= post.createdAt.toLocaleDateString('en-US', {month:'short',day:'numeric'}) %></span>
+                  <span class="meta-dot">&middot;</span>
+                  <span><%= post.readTime %> min</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

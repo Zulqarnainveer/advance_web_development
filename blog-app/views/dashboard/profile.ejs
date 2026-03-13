@@ -1,0 +1,62 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<main class="dashboard-page">
+  <div class="container">
+    <%- include('../partials/flash') %>
+
+    <div class="profile-page">
+      <div class="profile-card">
+        <img src="/uploads/<%= user.avatar %>"
+             onerror="this.src='/img/default-avatar.png'"
+             alt="<%= user.username %>" class="profile-avatar" loading="lazy"/>
+        <h2><%= user.username %></h2>
+        <p class="profile-email"><i class="fa-solid fa-envelope"></i> <%= user.email %></p>
+        <p class="profile-bio"><%= user.bio || 'No bio added yet.' %></p>
+        <span class="role-badge role-<%= user.role %>"><%= user.role %></span>
+        <div class="profile-stats">
+          <div>
+            <strong><%= user.posts ? user.posts.length : 0 %></strong>
+            <span>Posts</span>
+          </div>
+          <div>
+            <strong><%= user.createdAt.toLocaleDateString('en-US', {month:'short', year:'numeric'}) %></strong>
+            <span>Joined</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-posts">
+        <h3>My Posts (with .populate() relationship)</h3>
+        <% if (user.posts && user.posts.length > 0) { %>
+          <div class="profile-post-list">
+            <% user.posts.forEach(post => { %>
+              <div class="profile-post-item">
+                <img src="/uploads/<%= post.coverImage %>"
+                     onerror="this.src='/img/default-cover.jpg'"
+                     alt="" class="profile-post-thumb" loading="lazy"/>
+                <div>
+                  <a href="/blog/<%= post.slug %>"><%= post.title %></a>
+                  <div class="profile-post-meta">
+                    <span class="status-badge status-<%= post.status %>"><%= post.status %></span>
+                    <span><i class="fa-regular fa-eye"></i> <%= post.views %></span>
+                    <span><%= post.createdAt.toLocaleDateString() %></span>
+                  </div>
+                </div>
+                <div class="profile-post-actions">
+                  <a href="/dashboard/posts/<%= post._id %>/edit" class="btn btn-sm btn-outline">Edit</a>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <div class="empty-state-sm">
+            <p>No posts yet. <a href="/dashboard/posts/create">Write your first post!</a></p>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

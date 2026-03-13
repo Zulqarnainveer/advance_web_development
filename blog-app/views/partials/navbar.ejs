@@ -1,0 +1,31 @@
+<nav class="navbar">
+  <div class="container nav-container">
+    <a href="/blog" class="brand-logo">BlogFlow</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="/blog" class="nav-link">Home</a>
+      <a href="/blog/search" class="nav-link">Search</a>
+      <% if (user) { %>
+        <a href="/dashboard" class="nav-link">Dashboard</a>
+        <div class="nav-user">
+          <img src="/uploads/<%= user.avatar %>" alt="avatar" class="nav-avatar"
+               onerror="this.src='/img/default-avatar.png'" loading="lazy">
+          <a href="/dashboard/settings" class="nav-link" title="Settings">
+            <i class="fa-solid fa-gear"></i>
+          </a>
+          <form action="/auth/logout" method="POST" class="inline-form">
+            <button type="submit" class="btn btn-outline btn-sm">Sign out</button>
+          </form>
+        </div>
+      <% } else { %>
+        <a href="/auth/login" class="nav-link">Sign In</a>
+        <a href="/auth/register" class="btn btn-primary btn-sm">Get Started</a>
+      <% } %>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <i class="fa-solid fa-moon" id="themeIcon"></i>
+      </button>
+    </div>
+  </div>
+</nav>

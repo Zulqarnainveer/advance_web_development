@@ -1,0 +1,44 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<main class="auth-page">
+  <div class="auth-card">
+    <div class="auth-header">
+      <i class="fa-solid fa-right-to-bracket auth-icon"></i>
+      <h1>Welcome Back</h1>
+      <p>Sign in to manage your posts and profile</p>
+    </div>
+
+    <%- include('../partials/flash') %>
+
+    <form action="/auth/login" method="POST" class="auth-form" novalidate>
+      <div class="form-group">
+        <label for="email"><i class="fa-solid fa-envelope"></i> Email Address</label>
+        <input type="email" id="email" name="email"
+               value="<%= formData.email || '' %>"
+               placeholder="you@example.com" autocomplete="email" required/>
+      </div>
+
+      <div class="form-group">
+        <label for="password"><i class="fa-solid fa-lock"></i> Password</label>
+        <div class="input-password">
+          <input type="password" id="password" name="password"
+                 placeholder="Your password" autocomplete="current-password" required/>
+          <button type="button" class="toggle-pw" onclick="togglePassword('password')">
+            <i class="fa-solid fa-eye" id="icon-password"></i>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full">
+        <i class="fa-solid fa-right-to-bracket"></i> Sign In
+      </button>
+    </form>
+
+    <p class="auth-footer-text">
+      Don't have an account? <a href="/auth/register">Create one free</a>
+    </p>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>
