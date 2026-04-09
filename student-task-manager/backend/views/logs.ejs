@@ -1,0 +1,22 @@
+<%- include('partials/header') %>
+
+<section class="py-5 mt-5">
+  <div class="container">
+    <div class="mb-5">
+      <h2 class="text-white fw-bold">
+        <i class="bi bi-journal-text me-2 gradient-text"></i>Application Logs
+      </h2>
+      <p class="text-white-50">Real-time request logs written to <code>logs/logs.txt</code> via Node.js <code>fs</code> module</p>
+    </div>
+
+    <div class="glass-card p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-white-50 small"><i class="bi bi-clock me-1"></i>Last 50 log entries</span>
+        <a href="/logs" class="btn btn-glass btn-sm"><i class="bi bi-arrow-clockwise me-1"></i>Refresh</a>
+      </div>
+      <pre class="log-output"><%= logs %></pre>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

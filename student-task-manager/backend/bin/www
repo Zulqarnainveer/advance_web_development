@@ -1,0 +1,58 @@
+#!/usr/bin/env node
+// ============================================================
+// bin/www — HTTP Server Startup (Express Generator convention)
+// This file is the entry point for starting the server
+// ============================================================
+
+const app = require('../app');
+const http = require('http');
+
+// Get port from environment or default to 5000
+const port = normalizePort(process.env.PORT || '5000');
+app.set('port', port);
+
+// Create HTTP server
+const server = http.createServer(app);
+
+// Listen on the port
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/** Normalize port into number, string (named pipe), or false. */
+function normalizePort(val) {
+  const port = parseInt(val, 10);
+  if (isNaN(port)) return val;       // Named pipe
+  if (port >= 0) return port;        // Port number
+  return false;
+}
+
+/** Handle HTTP server errors. */
+function onError(error) {
+  if (error.syscall !== 'listen') throw error;
+  const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+
+  switch (error.code) {
+    case 'EACCES':
+      console.error(`❌ ${bind} requires elevated privileges`);
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(`❌ ${bind} is already in use`);
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/** Log when the server starts listening. */
+function onListening() {
+  const addr = server.address();
+  const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+  console.log('\n🚀 ================================');
+  console.log(`🚀  Server running on ${bind}`);
+  console.log(`🌐  API: http://localhost:${addr.port}/api`);
+  console.log(`📄  EJS Views: http://localhost:${addr.port}`);
+  console.log('🚀 ================================\n');
+}

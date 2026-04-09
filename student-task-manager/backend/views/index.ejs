@@ -1,0 +1,81 @@
+<%- include('partials/header') %>
+
+<section class="hero-section d-flex align-items-center min-vh-100">
+  <div class="container text-center">
+    <div class="hero-badge mb-4">
+      <span><i class="bi bi-stars me-2"></i>CSC337 — Advanced Web Technologies</span>
+    </div>
+    <h1 class="hero-title mb-4">
+      Manage Your<br/>
+      <span class="gradient-text">Academic Tasks</span><br/>
+      Brilliantly.
+    </h1>
+    <p class="hero-subtitle mb-5">
+      <%= description %>
+    </p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="http://localhost:5173" class="btn btn-glass-accent btn-lg px-5 py-3">
+        <i class="bi bi-rocket-takeoff me-2"></i>Launch App
+      </a>
+      <a href="/api/health" target="_blank" class="btn btn-glass btn-lg px-5 py-3">
+        <i class="bi bi-activity me-2"></i>API Status
+      </a>
+    </div>
+
+    <!-- Feature Cards -->
+    <div class="row g-4 mt-5 justify-content-center">
+      <div class="col-md-4">
+        <div class="glass-card p-4 text-start">
+          <div class="feature-icon mb-3"><i class="bi bi-database-check"></i></div>
+          <h5 class="text-white fw-semibold">MongoDB + Mongoose</h5>
+          <p class="text-white-50 small mb-0">Persistent data storage with schema validation & relationships</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="glass-card p-4 text-start">
+          <div class="feature-icon mb-3"><i class="bi bi-shield-lock"></i></div>
+          <h5 class="text-white fw-semibold">JWT Authentication</h5>
+          <p class="text-white-50 small mb-0">Secure token-based auth with bcrypt password hashing</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="glass-card p-4 text-start">
+          <div class="feature-icon mb-3"><i class="bi bi-funnel"></i></div>
+          <h5 class="text-white fw-semibold">Search & Filter</h5>
+          <p class="text-white-50 small mb-0">Filter tasks by status, priority. Full-text search support.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Endpoints Reference Table -->
+    <div class="glass-card mt-5 p-4 text-start">
+      <h4 class="text-white mb-4"><i class="bi bi-braces me-2"></i>RESTful API Endpoints</h4>
+      <div class="table-responsive">
+        <table class="table table-dark table-borderless api-table">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Endpoint</th>
+              <th>Description</th>
+              <th>Auth</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="badge bg-success">POST</span></td><td>/api/users/register</td><td>Register new user</td><td>❌</td></tr>
+            <tr><td><span class="badge bg-success">POST</span></td><td>/api/users/login</td><td>Login & get JWT</td><td>❌</td></tr>
+            <tr><td><span class="badge bg-info">GET</span></td><td>/api/users/me</td><td>Get own profile</td><td>✅</td></tr>
+            <tr><td><span class="badge bg-info">GET</span></td><td>/api/tasks</td><td>Get all tasks (filter, search)</td><td>✅</td></tr>
+            <tr><td><span class="badge bg-info">GET</span></td><td>/api/tasks/stats</td><td>Get task statistics</td><td>✅</td></tr>
+            <tr><td><span class="badge bg-info">GET</span></td><td>/api/tasks/:id</td><td>Get single task</td><td>✅</td></tr>
+            <tr><td><span class="badge bg-success">POST</span></td><td>/api/tasks</td><td>Create new task</td><td>✅</td></tr>
+            <tr><td><span class="badge bg-warning text-dark">PUT</span></td><td>/api/tasks/:id</td><td>Update task</td><td>✅</td></tr>
+            <tr><td><span class="badge bg-secondary">PATCH</span></td><td>/api/tasks/:id/status</td><td>Quick status change</td><td>✅</td></tr>
+            <tr><td><span class="badge bg-danger">DELETE</span></td><td>/api/tasks/:id</td><td>Delete task</td><td>✅</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

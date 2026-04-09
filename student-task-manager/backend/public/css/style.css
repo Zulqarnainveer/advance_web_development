@@ -1,0 +1,221 @@
+/* ============================================================
+   public/css/style.css
+   Glassmorphism + Dark Theme UI for EJS Views
+   ============================================================ */
+
+/* --- Google Fonts & CSS Variables --- */
+:root {
+  --accent:        #7c3aed;
+  --accent-2:      #06b6d4;
+  --accent-glow:   rgba(124, 58, 237, 0.4);
+  --glass-bg:      rgba(255, 255, 255, 0.05);
+  --glass-border:  rgba(255, 255, 255, 0.12);
+  --glass-shadow:  0 8px 32px rgba(0, 0, 0, 0.4);
+  --text-primary:  #f1f5f9;
+  --text-muted:    rgba(241, 245, 249, 0.5);
+  --font-display:  'Syne', sans-serif;
+  --font-body:     'DM Sans', sans-serif;
+  --bg-dark:       #040b1a;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* --- Animated Gradient Orb Background --- */
+.bg-orbs {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  animation: float 12s ease-in-out infinite;
+}
+.orb-1 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, #7c3aed, transparent 70%);
+  top: -200px; left: -200px;
+  animation-delay: 0s;
+}
+.orb-2 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #06b6d4, transparent 70%);
+  bottom: -150px; right: -150px;
+  animation-delay: -4s;
+}
+.orb-3 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, #a855f7, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: -8s;
+}
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(40px, -40px) scale(1.05); }
+  66%       { transform: translate(-30px, 30px) scale(0.95); }
+}
+
+/* --- Main Content (above orbs) --- */
+.main-content { position: relative; z-index: 1; }
+
+/* --- Glassmorphism Navbar --- */
+.glass-navbar {
+  background: rgba(4, 11, 26, 0.7) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+}
+.brand-logo {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #fff !important;
+  text-decoration: none;
+  background: linear-gradient(135deg, #c4b5fd, #67e8f9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* --- Glass Card --- */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: var(--glass-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.glass-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(124,58,237,0.2);
+}
+
+/* --- Buttons --- */
+.btn-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  color: #fff;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+.btn-glass:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  border-color: rgba(255,255,255,0.3);
+  transform: translateY(-1px);
+}
+.btn-glass-accent {
+  background: linear-gradient(135deg, var(--accent), #a855f7);
+  border: none;
+  color: #fff;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+.btn-glass-accent:hover {
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--accent-glow);
+}
+
+/* --- Hero Section --- */
+.hero-section { padding: 120px 0 60px; }
+.hero-badge {
+  display: inline-block;
+}
+.hero-badge span {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: #fff;
+}
+.gradient-text {
+  background: linear-gradient(135deg, #c4b5fd 0%, #67e8f9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* --- Feature Icons --- */
+.feature-icon {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, var(--accent), #a855f7);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  color: #fff;
+}
+.feature-icon i { font-size: 1.3rem; }
+
+/* --- API Table --- */
+.api-table {
+  font-size: 0.875rem;
+  background: transparent !important;
+}
+.api-table thead th {
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--glass-border) !important;
+}
+.api-table tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.04) !important;
+}
+.api-table tbody td { color: #e2e8f0; padding: 10px 12px; }
+.api-table code { color: #67e8f9; background: rgba(6,182,212,0.1); padding: 2px 6px; border-radius: 4px; }
+
+/* --- Logs Page --- */
+.log-output {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 20px;
+  color: #a3e635;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  max-height: 500px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  line-height: 1.6;
+}
+.log-output::-webkit-scrollbar { width: 6px; }
+.log-output::-webkit-scrollbar-track { background: transparent; }
+.log-output::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 3px; }
